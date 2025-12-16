@@ -153,3 +153,17 @@ button{
     margin: auto;
 
 }
+
+/* isDelete */
+
+.delete {
+    display: none;
+}
+
+.width{
+    width: 145px;
+}
+
+.reply-delete {
+    margin: auto;
+}

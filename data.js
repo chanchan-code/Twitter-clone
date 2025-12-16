@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+
 export const tweetsData = [   
     {
         handle: `@TrollBot66756542 💎`,
@@ -9,6 +11,7 @@ export const tweetsData = [
         replies: [],
         isLiked: false,
         isRetweeted: false,
+        isDelete: false,
         uuid: '4b161eee-c0f5-4545-9c4b-8562944223ee',
     },    
     {
@@ -22,15 +25,20 @@ export const tweetsData = [
                 handle: `@TomCruise ✅`,
                 profilePic: `images/tcruise.png`,
                 tweetText: `Yes! Sign me up! 😎🛩`,
+                uuid: uuidv4(),
+                isDelete: false,
             },
                   {
                 handle: `@ChuckNorris ✅`,
                 profilePic: `images/chucknorris.jpeg`,
                 tweetText: `I went last year😴`,
+                uuid: uuidv4(),
+                isDelete: false,
             },
         ],
         isLiked: false,
         isRetweeted: false,
+        isDelete: false,
         uuid: '3c23454ee-c0f5-9g9g-9c4b-77835tgs2',
     },
         {
@@ -44,15 +52,20 @@ export const tweetsData = [
                 handle: `@StackOverflower ☣️`,
                 profilePic: `images/overflow.png`,
                 tweetText: `No. Obviosuly not. Go get a job in McDonald's.`,
+                uuid: uuidv4(),
+                isDelete: false,
             },
             {
                 handle: `@YummyCoder64`,
                 profilePic: `images/love.png`,
                 tweetText: `You are wonderful just as you are! ❤️`,
+                uuid: uuidv4(),
+                isDelete: false,
             },
         ],
         isLiked: false,
         isRetweeted: false,
+        isDelete: false,
         uuid: '8hy671sff-c0f5-4545-9c4b-1237gyys45',
     },     
 ]

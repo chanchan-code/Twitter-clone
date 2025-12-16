@@ -11,12 +11,20 @@ document.addEventListener('click', function(e){
     else if(e.target.dataset.reply){
         handleReplyClick(e.target.dataset.reply)
     }
+    else if (e.target.dataset.delete) {
+        handeleDeleteTweet(e.target.dataset.delete)
+    }
+    else if(e.target.dataset.replies) {
+        handleReplyUserData(e.target.dataset.replies)
+    }
+    else if(e.target.dataset.deleteReply) {
+        handleDeleteReply(e.target.dataset.deleteReply)
+    }
+
     else if(e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
     }
-    else if(e.target.dataset.replies){
-        handleReplyUserData(e.target.dataset.replies)
-    }
+
 })
  
 function handleLikeClick(tweetId){ 
@@ -63,7 +71,8 @@ function handleTweetBtnClick() {
         tweetText: tweetInput.value,
         replies: [],
         isLiked: false,
-        sRetweeted: false,
+        isRetweeted: false,
+        isDelete: true,
         uuid: uuidv4(),
     }
 
@@ -71,6 +80,16 @@ function handleTweetBtnClick() {
         tweetsData.unshift(userdata)
     }
     tweetInput.value = ''
+    render()
+}
+
+function handeleDeleteTweet(tweetId) {
+    tweetsData.forEach(function(tweet, index){
+        if (tweet.uuid === tweetId) {
+            tweetsData.splice(index, 1)
+        }
+    })
+
     render()
 }
 
@@ -86,12 +105,27 @@ function handleReplyUserData(replyId){
         targetTweetObj.replies.unshift({
         handle: '@Scrimba',
         profilePic: 'images/scrimbalogo.png',
-        tweetText: replyInput.value
+        tweetText: replyInput.value,
+        uuid: uuidv4(),
+        isDelete: true,
+
         })
         replyInput.value = ''    
     }
     render()
 }
+
+function handleDeleteReply(deleteUuid){
+    tweetsData.forEach(function(tweet){
+        tweet.replies.forEach(function(reply,index){
+            if (reply.uuid === deleteUuid) {
+                tweet.replies.splice(index, 1)
+            }
+        })
+    })
+    render()
+}
+
 
 function getFeedHtml(){
     let feedHtml = ``
@@ -110,18 +144,36 @@ function getFeedHtml(){
             retweetIconClass = 'retweeted'
         }
 
+        let deleteIconClass = '' 
+
+        if(!tweet.isDelete) {
+            deleteIconClass = 'delete'
+        }
+
         let repliesHtml = ''
         
         if(tweet.replies.length > 0){
+
             tweet.replies.forEach(function(reply){
+
+            let deleteReplayIconClass = ''
+
+            if(!reply.isDelete) {
+                deleteReplayIconClass = 'delete'
+            }
+
                 repliesHtml+=`
                     <div class="tweet-reply">
                         <div class="tweet-inner">
                             <img src="${reply.profilePic}" class="profile-pic">
                                 <div>
-                                    <p class="handle">${reply.handle}</p>
-                                    <p class="tweet-text">${reply.tweetText}</p>
+                                    <p class="handle width">${reply.handle}</p>
+                                    <p class="tweet-text width">${reply.tweetText}</p>
                                 </div>
+                                <span class="tweet-detail reply-delete ${deleteReplayIconClass}">
+                                    <i class="fa-solid fa-delete-left"
+                                    data-delete-reply="${reply.uuid}"></i>
+                            </span>
                         </div>
                     </div>
                     `
@@ -154,6 +206,11 @@ function getFeedHtml(){
                                 data-retweet="${tweet.uuid}"
                                 ></i>
                                 ${tweet.retweets}
+                            </span>
+                             <span class="tweet-detail ${deleteIconClass}">
+                                <i class="fa-solid fa-delete-left"
+                                data-delete="${tweet.uuid}"
+                                ></i>
                             </span>
                         </div>   
                     </div>            
